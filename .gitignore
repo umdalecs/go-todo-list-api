@@ -1,0 +1,6 @@
+# Private environments
+.env
+
+# Editor/IDE files
+.vscode
+.idea
