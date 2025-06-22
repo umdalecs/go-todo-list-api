@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"log"
@@ -11,13 +11,25 @@ import (
 var Envs = initConfig()
 
 type Configuration struct {
-	JwtSecret string
+	JwtSecret []byte
+
+	DbAddr string
+	DbPort uint16
+	DbUser string
+	DbPass string
+	DbName string
 }
 
 func initConfig() *Configuration {
 	godotenv.Load()
 	return &Configuration{
-		JwtSecret: loadEnv("JWT_SECRET"),
+		JwtSecret: []byte(loadEnv("JWT_SECRET")),
+
+		DbAddr: loadEnv("PG_DB_ADDR"),
+		DbPort: uint16(loadIntEnv("PG_DB_PORT")),
+		DbUser: loadEnv("PG_DB_USER"),
+		DbPass: loadEnv("PG_DB_PASS"),
+		DbName: loadEnv("PG_DB_NAME"),
 	}
 }
 
