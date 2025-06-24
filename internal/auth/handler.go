@@ -61,7 +61,7 @@ func (h *AuthHandler) handleRegister(ctx *gin.Context) {
 		return
 	}
 
-	token, err := GenerateToken(int64(user.ID))
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error generating access token"})
 		return
@@ -84,7 +84,7 @@ func (h *AuthHandler) handleLogin(ctx *gin.Context) {
 	}
 
 	if user.ID == 0 {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "user doesn't exist"})
 		return
 	}
 
@@ -93,7 +93,7 @@ func (h *AuthHandler) handleLogin(ctx *gin.Context) {
 		return
 	}
 
-	token, err := GenerateToken(int64(user.ID))
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error generating access token"})
 		return
