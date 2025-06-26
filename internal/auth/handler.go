@@ -50,14 +50,13 @@ func (h *AuthHandler) handleRegister(ctx *gin.Context) {
 	}
 
 	var user User
-	err := h.repo.CreateUser(&payload, &user)
-	if err != nil {
+	if err := h.repo.CreateUser(&payload, &user); err != nil {
 		if err == ErrDuplicatedEmail {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "email is already taken"})
 			return
 		}
 
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error storing user"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error saving user"})
 		return
 	}
 
