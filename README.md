@@ -108,3 +108,10 @@ Use optional query params for pagination and filtering.
 curl --location 'localhost:8080/api/v1/todos?page=1&limit=5&filter=updated' \
 --header 'Authorization: Bearer {{token}}'
 ```
+
+## Todos
+
+- Implement sorting for the to-do list
+- Implement unit tests for the API
+- Implement rate limiting and throttling for the API
+- Implement refresh token mechanism for the authentication
