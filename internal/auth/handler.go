@@ -26,7 +26,7 @@ func (h *AuthHandler) RegisterRoutes(r *gin.RouterGroup) {
 func (h *AuthHandler) handleRegister(ctx *gin.Context) {
 	var payload RegisterDto
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid json"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 
@@ -71,7 +71,7 @@ func (h *AuthHandler) handleRegister(ctx *gin.Context) {
 func (h *AuthHandler) handleLogin(ctx *gin.Context) {
 	var payload LoginDto
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid json"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 

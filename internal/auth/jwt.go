@@ -44,7 +44,7 @@ func ValidateToken(token string) (*CustomClaims, error) {
 
 	claims, ok := parsed.Claims.(*CustomClaims)
 	if !ok || !parsed.Valid {
-		return nil, fmt.Errorf("token inválido")
+		return nil, fmt.Errorf("token is not valid")
 	}
 
 	return claims, nil
