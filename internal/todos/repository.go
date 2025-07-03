@@ -2,6 +2,8 @@ package todos
 
 import (
 	"errors"
+	"fmt"
+	"slices"
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -85,7 +87,7 @@ func (r *TodoRepository) DeleteTodo(userID, todoID int) error {
 	return nil
 }
 
-func (r *TodoRepository) GetAllTodos(userID, page, limit int, filter string, todos *[]Todo, totalPages *int) error {
+func (r *TodoRepository) GetAllTodos(userID, page, limit int, filter, sort string, todos *[]Todo, totalPages *int) error {
 	offset := limit * (page - 1)
 
 	var total int
@@ -116,16 +118,21 @@ func (r *TodoRepository) GetAllTodos(userID, page, limit int, filter string, tod
 		*totalPages++
 	}
 
-	err = pgxscan.Select(db.Ctx, r.db, todos, `
-		SELECT id, title, description
+	sortOptions := []string{"title", "description"}
+	if !slices.Contains(sortOptions, sort) {
+		return errors.New("unexpected sort option")
+	}
+
+	sql := fmt.Sprintf(`SELECT id, title, description
 		FROM todos
 		WHERE user_id = $1
-			AND ( title ILIKE '%' || $4 || '%'
-			OR description ILIKE '%' || $4 || '%' )
-		ORDER BY id
+			AND ( title ILIKE '%%' || $4 || '%%'
+			OR description ILIKE '%%' || $4 || '%%' )
+		ORDER BY %s, id
 		LIMIT $2
-		OFFSET $3
-	`, userID, limit, offset, filter)
+		OFFSET $3`, sort)
+
+	err = pgxscan.Select(db.Ctx, r.db, todos, sql, userID, limit, offset, filter)
 
 	if err != nil {
 		return err

@@ -54,8 +54,6 @@ curl --location 'localhost:8080/api/v1/register' \
 
 ### Register
 
-It returns an access token
-
 ```bash
 curl --location 'localhost:8080/api/v1/login' \
 --header 'Content-Type: application/json' \
@@ -66,8 +64,6 @@ curl --location 'localhost:8080/api/v1/login' \
 ```
 
 ### Create Todo
-
-It returns an access token
 
 ```bash
 curl --location 'localhost:8080/api/v1/todos/' \
@@ -81,7 +77,6 @@ curl --location 'localhost:8080/api/v1/todos/' \
 
 ### Update Todo
 
-
 ```bash
 curl --location --request PUT 'localhost:8080/api/v1/todos/1' \
 --header 'Authorization: Bearer {{token}}' \
@@ -94,7 +89,6 @@ curl --location --request PUT 'localhost:8080/api/v1/todos/1' \
 
 ### Delete Todo
 
-
 ```bash
 curl --location --request DELETE 'localhost:8080/api/v1/todos/1' \
 --header 'Authorization: Bearer {{token}}' \
@@ -105,13 +99,12 @@ curl --location --request DELETE 'localhost:8080/api/v1/todos/1' \
 Use optional query params for pagination and filtering.
 
 ```bash
-curl --location 'localhost:8080/api/v1/todos?page=1&limit=5&filter=updated' \
+curl --location 'localhost:8080/api/v1/todos?page=1&limit=5&filter=updated&sort=title' \
 --header 'Authorization: Bearer {{token}}'
 ```
 
 ## Todos
 
-- Implement sorting for the to-do list
 - Implement unit tests for the API
 - Implement rate limiting and throttling for the API
 - Implement refresh token mechanism for the authentication

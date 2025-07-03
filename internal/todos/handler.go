@@ -163,9 +163,15 @@ func (h *TodoHandler) handleGetAll(ctx *gin.Context) {
 
 	filter := ctx.Query("filter")
 
+	sort := ctx.Query("sort")
+
+	if sort == "" {
+		sort = "title"
+	}
+
 	todos := &[]Todo{}
 	var totalPages int
-	if err := h.repo.GetAllTodos(userID, page, limit, filter, todos, &totalPages); err != nil {
+	if err := h.repo.GetAllTodos(userID, page, limit, filter, sort, todos, &totalPages); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error retrieving todos"})
 		return
 	}
